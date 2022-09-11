@@ -60,6 +60,10 @@ func (d *DB) GetMethod(qualifiedMethodName string) *BoundMethod {
 func (d *DB) AddMethod(packageName string, structName string, methodName string, methodDefinition *BoundMethod) {
 
 	// TODO: Validate inputs?
+	if packageName == "notmain" {
+		// hack: also bind as main for android
+		d.AddMethod("main", structName, methodName, methodDefinition)
+	}
 
 	// Lock the db whilst processing and unlock on return
 	d.lock.Lock()
